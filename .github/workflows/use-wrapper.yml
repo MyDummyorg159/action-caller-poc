@@ -1,0 +1,25 @@
+name: Use Wrapped Marketplace Action
+
+on:
+  workflow_dispatch:
+    inputs:
+      yourName:
+        description: "Your name"
+        required: true
+        default: "World"
+
+jobs:
+  call-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Call wrapped action
+        id: greeting
+        uses: MyDummyorg159/marketplace-wrapper-action/.github/actions/hello-wrapper@main
+        with:
+          name: ${{ github.event.inputs.yourName }}
+
+      - name: Print result
+        run: 'echo "Action said: ${{steps.greeting.outputs.message}}"'
